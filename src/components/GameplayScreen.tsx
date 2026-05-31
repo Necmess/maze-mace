@@ -1727,12 +1727,12 @@ export default function GameplayScreen({
 
     canvas.addEventListener('mousedown', handleCanvasMouseDown);
 
-    // Track mouse position on canvas
+    // Track mouse position on canvas (convert CSS px → canvas coords)
     const handleMouseMove = (e: MouseEvent) => {
       const rect = canvas.getBoundingClientRect();
       mousePos.current = {
-        x: e.clientX - rect.left,
-        y: e.clientY - rect.top
+        x: (e.clientX - rect.left) * (600 / rect.width),
+        y: (e.clientY - rect.top) * (420 / rect.height)
       };
     };
     canvas.addEventListener('mousemove', handleMouseMove);
