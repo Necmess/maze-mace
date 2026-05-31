@@ -139,6 +139,22 @@ export default function GameplayScreen({
   }, [dailyRule]);
 
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const [spriteScale, setSpriteScale] = useState({ x: 1, y: 1 });
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const update = () => {
+      const rect = canvas.getBoundingClientRect();
+      if (rect.width > 0 && rect.height > 0) {
+        setSpriteScale({ x: rect.width / 600, y: rect.height / 420 });
+      }
+    };
+    update();
+    const ro = new ResizeObserver(update);
+    ro.observe(canvas);
+    return () => ro.disconnect();
+  }, []);
 
   const lightCanvasRef = useRef<HTMLCanvasElement | null>(null);
   const pausedRef = useRef(isPaused);
@@ -5637,7 +5653,17 @@ export default function GameplayScreen({
           <canvas ref={canvasRef} className="w-full aspect-[600/420]" style={{ filter: canvasFilter, transition: 'filter 0.3s ease' }} />
           
           {/* Standalone SVG Sprite Layer */}
-          <div className="absolute inset-0 pointer-events-none overflow-hidden z-10">
+          <div
+            className="absolute pointer-events-none overflow-hidden z-10"
+            style={{
+              top: 0,
+              left: 0,
+              width: 600,
+              height: 420,
+              transformOrigin: '0 0',
+              transform: `scale(${spriteScale.x}, ${spriteScale.y})`,
+            }}
+          >
             {/* Swift Armor (Striker) Afterimages */}
             {selectedBuild === 'striker' && overlayPlayer.history && overlayPlayer.history.length > 0 && (() => {
               const isDashing = overlayPlayer.dashTimer > 0;
