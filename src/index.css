@@ -1,0 +1,382 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Outfit:wght@300;400;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    background-color: #08080E;
+    color: #F0EDE8;
+    font-family: 'Outfit', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3 {
+    font-family: 'Cinzel', serif;
+    color: #C9A84C;
+  }
+}
+
+/* Dynamic glow animations */
+@keyframes pulse-gold {
+  0%, 100% { box-shadow: 0 0 10px rgba(201, 168, 76, 0.2); }
+  50% { box-shadow: 0 0 25px rgba(201, 168, 76, 0.5); }
+}
+
+@keyframes pulse-red {
+  0%, 100% { box-shadow: 0 0 10px rgba(200, 67, 47, 0.2); }
+  50% { box-shadow: 0 0 25px rgba(200, 67, 47, 0.5); }
+}
+
+.glow-gold-pulse {
+  animation: pulse-gold 2s infinite ease-in-out;
+}
+
+.glow-red-pulse {
+  animation: pulse-red 2s infinite ease-in-out;
+}
+
+/* Custom scrollbars for dark look */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #08080E;
+}
+::-webkit-scrollbar-thumb {
+  background: #1A1A2E;
+  border-radius: 4px;
+  border: 1.5px solid #C9A84C;
+}
+
+/* Runic glow backgrounds */
+.rune-bg {
+  background-image: radial-gradient(circle at 50% 50%, rgba(26, 26, 46, 0.8) 0%, rgba(8, 8, 14, 0.95) 100%);
+}
+
+/* Room entrance fade transition */
+@keyframes roomFadeOut {
+  0% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+.animate-room-fade {
+  animation: roomFadeOut 0.5s ease-out forwards;
+}
+
+/* Wall opening sphincter transition on room generation */
+@keyframes wallOpen {
+  0% {
+    border-width: 32px;
+    filter: brightness(0.65);
+  }
+  100% {
+    border-width: 18px;
+    filter: brightness(1.0);
+  }
+}
+
+.animate-wall-open {
+  animation: wallOpen 0.3s cubic-bezier(0.1, 0.9, 0.2, 1.0) forwards;
+}
+
+/* Beating heart pulse for player icon in map */
+@keyframes mapCoreThump {
+  0%, 100% { transform: scale(1.0); box-shadow: 0 0 6px #C9A84C; }
+  50% { transform: scale(1.18); box-shadow: 0 0 14px #FFA500, inset 0 0 3px #FFF; }
+}
+
+.animate-map-pulse {
+  animation: mapCoreThump 0.9s ease-in-out infinite;
+}
+
+/* Mounting cell flash on new room discovery */
+@keyframes cellFlash {
+  0% { filter: brightness(2.8); box-shadow: 0 0 15px #FFF; background-color: #FFF; }
+  100% { filter: brightness(1.0); }
+}
+
+.animate-cell-flash {
+  animation: cellFlash 0.5s ease-out forwards;
+}
+
+/* Top notification toast slide-down */
+@keyframes slideDown {
+  0% { transform: translate(-50%, -100px); opacity: 0; }
+  12% { transform: translate(-50%, 0); opacity: 1; }
+  88% { transform: translate(-50%, 0); opacity: 1; }
+  100% { transform: translate(-50%, -100px); opacity: 0; }
+}
+.animate-slide-down {
+  animation: slideDown 3.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Level up card bottom-to-top slide */
+@keyframes cardSlideUp {
+  0% { transform: translateY(160px) scale(0.9); opacity: 0; }
+  60% { transform: translateY(-12px) scale(1.02); opacity: 0.85; }
+  100% { transform: translateY(0) scale(1.0); opacity: 1; }
+}
+.animate-card-slide {
+  animation: cardSlideUp 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.2) forwards;
+  opacity: 0;
+}
+
+/* Selected Card focus glow */
+@keyframes selectedCardGlow {
+  0% { transform: scale(1.0); box-shadow: 0 0 10px rgba(201, 168, 76, 0.4); }
+  50% { transform: scale(1.08); box-shadow: 0 0 35px rgba(201, 168, 76, 0.95); }
+  100% { transform: scale(1.05); box-shadow: 0 0 25px rgba(201, 168, 76, 0.8); border-color: #C9A84C; }
+}
+.selected-card-glow {
+  animation: selectedCardGlow 0.6s cubic-bezier(0.25, 0.8, 0.25, 1) forwards !important;
+  pointer-events: none;
+}
+
+/* Deselected Card fade/shrink */
+@keyframes deselectedCardFade {
+  0% { opacity: 1; transform: scale(1.0) translateY(0); }
+  100% { opacity: 0; transform: scale(0.85) translateY(45px); }
+}
+.deselected-card-fade {
+  animation: deselectedCardFade 0.5s ease-in forwards !important;
+  pointer-events: none;
+}
+
+/* Fullscreen gold synergy flash */
+@keyframes synergyFlash {
+  0% { background-color: rgba(201, 168, 76, 0.85); opacity: 1; }
+  35% { background-color: rgba(201, 168, 76, 0.35); opacity: 1; }
+  100% { background-color: transparent; opacity: 0; }
+}
+.animate-synergy-flash {
+  animation: synergyFlash 0.7s ease-out forwards;
+}
+
+/* Elite Monster Red Aura box-shadow pulse */
+@keyframes eliteAura {
+  0%, 100% { box-shadow: 0 0 14px rgba(200, 67, 47, 0.45); }
+  50% { box-shadow: 0 0 32px rgba(200, 67, 47, 0.95); }
+}
+.animate-elite-aura {
+  animation: eliteAura 1.4s infinite ease-in-out;
+  border-radius: 50%;
+}
+
+/* Deep zone heartbeat synchronization vibration */
+@keyframes heartbeatVibe {
+  0%, 100% { transform: translate(0, 0); }
+  22% { transform: translate(-1.2px, 0.8px); }
+  24% { transform: translate(1.2px, -0.8px); }
+  26% { transform: translate(-0.8px, -0.4px); }
+  28% { transform: translate(0, 0); }
+  62% { transform: translate(-0.6px, 0.4px); }
+  64% { transform: translate(0.6px, -0.4px); }
+  66% { transform: translate(0, 0); }
+}
+.animate-heartbeat-vibe {
+  animation: heartbeatVibe 0.8s infinite ease-in-out;
+}
+
+/* Combo shatter animation when combo is broken */
+@keyframes comboShatter {
+  0% {
+    transform: scale(1.0) rotate(0deg);
+    opacity: 1;
+    filter: blur(0px);
+  }
+  15% {
+    transform: scale(1.2) rotate(4deg);
+    filter: hue-rotate(60deg) saturate(2);
+  }
+  30% {
+    transform: scale(1.0) rotate(-6deg) translateY(10px);
+  }
+  100% {
+    transform: scale(0.6) rotate(35deg) translateY(120px);
+    opacity: 0;
+    filter: blur(4px) grayscale(1.0);
+  }
+}
+.animate-combo-shatter {
+  animation: comboShatter 0.7s cubic-bezier(0.36, 0.07, 0.19, 0.97) forwards;
+}
+
+/* 5 Combo text explosion splash */
+@keyframes comboTextExplosion {
+  0% {
+    transform: scale(0.3) rotate(-15deg);
+    opacity: 0;
+  }
+  30% {
+    transform: scale(1.45) rotate(8deg);
+    opacity: 1;
+    filter: drop-shadow(0 0 15px #FFD700);
+  }
+  55% {
+    transform: scale(1.2) rotate(-5deg);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0.8) rotate(0deg) translateY(-20px);
+    opacity: 0;
+  }
+}
+.animate-combo-explosion {
+  animation: comboTextExplosion 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+/* Stamina Warning Blink */
+@keyframes staminaWarningFlash {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+
+.animate-stamina-warning {
+  animation: staminaWarningFlash 0.3s infinite ease-in-out;
+}
+
+/* Cinematic player death fade overlay */
+@keyframes deathFade {
+  0% {
+    background: rgba(0, 0, 0, 0);
+  }
+  30% {
+    background: radial-gradient(circle, rgba(139, 0, 0, 0.75) 0%, rgba(3, 2, 5, 0.4) 60%, rgba(3, 2, 5, 0.9) 100%);
+  }
+  100% {
+    background: radial-gradient(circle, rgba(60, 0, 0, 0.9) 0%, rgba(3, 2, 5, 1) 70%, rgba(0, 0, 0, 1) 100%);
+  }
+}
+.animate-death-fade {
+  animation: deathFade 3s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
+}
+
+/* Intense red pulsing edges when contamination >= 90% */
+@keyframes intenseRedPulse {
+  0%, 100% {
+    box-shadow: inset 0 0 120px rgba(220, 10, 10, 0.9), inset 0 0 60px rgba(255, 0, 0, 0.8);
+    border-color: rgba(220, 10, 10, 1.0);
+  }
+  50% {
+    box-shadow: inset 0 0 250px rgba(220, 10, 10, 1.0), inset 0 0 140px rgba(255, 0, 0, 0.95);
+    border-color: rgba(255, 0, 0, 1.0);
+  }
+}
+.animate-intense-red-pulse {
+  animation: intenseRedPulse 0.4s infinite ease-in-out;
+}
+
+/* Smooth fade-in overlay utility */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.animate-fade-in {
+  animation: fadeIn 0.22s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+/* Blue light filled screen transition on recovery room entry */
+@keyframes recoveryFlash {
+  0% { background-color: rgba(59, 130, 246, 0.65); opacity: 1; }
+  100% { background-color: transparent; opacity: 0; }
+}
+.animate-recovery-flash {
+  animation: recoveryFlash 1.5s cubic-bezier(0.1, 0.8, 0.1, 1.0) forwards;
+}
+
+/* Gold flash transition on max HP recovery or full recovery completion */
+@keyframes goldFlash {
+  0% { background-color: rgba(250, 204, 21, 0.55); opacity: 1; }
+  100% { background-color: transparent; opacity: 0; }
+}
+
+/* Achievement slide-in toast animations */
+@keyframes slideInFromRight {
+  0% { transform: translateX(350px); opacity: 0; }
+  100% { transform: translateX(0); opacity: 1; }
+}
+.animate-slide-in-right {
+  animation: slideInFromRight 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes fadeOutRight {
+  0% { transform: translateX(0); opacity: 1; }
+  100% { transform: translateX(350px); opacity: 0; }
+}
+.animate-slide-out-right {
+  animation: fadeOutRight 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.animate-gold-flash {
+  animation: goldFlash 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes cardSwap {
+  0% { transform: scale(1.0); filter: brightness(2.0) contrast(1.2); }
+  20% { transform: scale(1.06) rotate(1deg); filter: brightness(2.5) hue-rotate(15deg); }
+  50% { transform: scale(1.04) rotate(-1deg); filter: brightness(1.8) saturate(1.5); }
+  100% { transform: scale(1.03) rotate(0deg); filter: brightness(1.0) saturate(1.0); }
+}
+
+.animate-card-swap {
+  animation: cardSwap 0.40s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+@keyframes whiteout {
+  0% { background-color: rgba(255, 255, 255, 0); }
+  100% { background-color: rgba(255, 255, 255, 1); }
+}
+.animate-whiteout {
+  animation: whiteout 1.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+@keyframes portalGlow {
+  0%, 100% {
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.5), 0 0 30px rgba(201, 168, 76, 0.3);
+    filter: drop-shadow(0 0 8px rgba(201, 168, 76, 0.4));
+  }
+  50% {
+    box-shadow: 0 0 25px rgba(255, 255, 255, 0.8), 0 0 45px rgba(201, 168, 76, 0.6);
+    filter: drop-shadow(0 0 15px rgba(201, 168, 76, 0.7));
+  }
+}
+.animate-portal-glow {
+  animation: portalGlow 2s infinite ease-in-out;
+}
+
+@keyframes survivorExitWalk {
+  0% {
+    transform: translate(-50%, 80px) scale(1.0);
+    opacity: 1;
+  }
+  30% {
+    transform: translate(-50%, 20px) scale(0.85);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -100px) scale(0.25);
+    opacity: 0;
+  }
+}
+.animate-survivor-exit {
+  animation: survivorExitWalk 4.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+@keyframes textReveal {
+  0% {
+    letter-spacing: -2px;
+    opacity: 0;
+    filter: blur(4px);
+  }
+  100% {
+    letter-spacing: 6px;
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+.animate-text-reveal {
+  animation: textReveal 2.0s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
