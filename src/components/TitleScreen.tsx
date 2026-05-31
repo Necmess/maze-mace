@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import heroImage from '../assets/hero.png';
 import type { BuildId, RunRecords, Difficulty, ScoreboardEntry } from '../types/game';
-import { getDailySeedAndRule } from '../config/dailyChallenge';
 import { ACHIEVEMENTS } from '../config/achievements';
 
 interface WebAudioWindow extends Window {
@@ -547,6 +546,77 @@ export default function TitleScreen({
         </div>
       </div>
 
+      {/* Bottom controls & Action button */}
+      <div className="w-full max-w-md text-center flex flex-col items-center gap-3.5 z-10 my-4">
+
+        {/* Difficulty Selection */}
+        <div className="w-full max-w-sm bg-slate-950/80 border border-slate-900 rounded-lg p-2.5 flex flex-col items-center gap-2 shadow-[0_0_10px_rgba(0,0,0,0.5)]">
+          <span className="text-[9px] font-cinzel font-bold text-maze-gold tracking-widest uppercase">
+            SELECT DIFFICULTY
+          </span>
+          <div className="flex gap-2 w-full">
+            {(['normal', 'hard', 'extreme'] as const).map(diff => (
+              <button
+                key={diff}
+                type="button"
+                onClick={() => setDifficulty(diff)}
+                className={`flex-1 py-1.5 rounded font-cinzel font-bold text-xs tracking-wider transition-all duration-300 cursor-pointer ${
+                  difficulty === diff
+                    ? diff === 'extreme'
+                      ? 'bg-red-950 border border-red-600 text-red-400 shadow-[0_0_12px_rgba(220,38,38,0.4)] animate-pulse'
+                      : diff === 'hard'
+                        ? 'bg-amber-950 border border-amber-600 text-amber-400 shadow-[0_0_10px_rgba(245,158,11,0.3)]'
+                        : 'bg-maze-gold/25 border border-maze-gold text-maze-gold shadow-[0_0_8px_rgba(201,168,76,0.2)]'
+                    : 'bg-slate-950/50 border border-slate-900 text-maze-silver/40 hover:text-maze-silver/80'
+                }`}
+              >
+                {diff === 'normal' && '일반 (Normal)'}
+                {diff === 'hard' && '오염 (Hard)'}
+                {diff === 'extreme' && '심층 (Extreme)'}
+              </button>
+            ))}
+          </div>
+          <div className="text-[9px] font-outfit text-maze-silver/80 leading-relaxed text-center px-1">
+            {difficulty === 'normal' && (
+              <span className="text-maze-cream font-medium">기본 미궁 탐색 밸런스 유지 (점수 배율: 1.0x)</span>
+            )}
+            {difficulty === 'hard' && (
+              <span className="text-amber-500 font-bold">몬스터 HP/피해 +30% | 오염도 상승 속도 2배 | 점수 배율: 1.5x</span>
+            )}
+            {difficulty === 'extreme' && (
+              <span className="text-red-500 font-extrabold animate-pulse">몬스터 HP/피해 +70% | 기본 시야 제한 | 점수 배율: 2.5x | 전용 업적 해금</span>
+            )}
+          </div>
+        </div>
+
+        {/* Start Buttons Row */}
+        <div className="flex flex-col sm:flex-row gap-3">
+          <button
+            onClick={handleStartClick}
+            className="w-52 py-2.5 rounded-lg font-cinzel font-black text-sm bg-maze-gold hover:bg-maze-cream text-maze-bg border border-maze-cream tracking-widest transition-all duration-300 hover:shadow-gold-glow-lg active:scale-95 cursor-pointer"
+          >
+            ENTER THE MAZE
+          </button>
+          <button
+            onClick={handleDailyStartClick}
+            className="w-52 py-2.5 rounded-lg font-cinzel font-black text-sm bg-red-950/80 border border-red-500 hover:bg-red-900/90 text-red-100 tracking-widest transition-all duration-300 hover:shadow-[0_0_15px_rgba(239,68,68,0.4)] active:scale-95 cursor-pointer"
+          >
+            📅 DAILY CHALLENGE
+          </button>
+        </div>
+
+        {/* Action Controls Guide */}
+        <div className="border border-slate-900 bg-maze-dark/60 rounded-lg py-2 px-4 max-w-sm">
+          <p className="text-[9px] text-maze-silver font-outfit tracking-wider leading-normal">
+            <span className="text-maze-gold font-bold">MOVE</span>: WASD |{' '}
+            <span className="text-maze-gold font-bold">ATK</span>: Click/Space |{' '}
+            <span className="text-maze-gold font-bold">DASH</span>: L-Shift |{' '}
+            <span className="text-maze-gold font-bold">SKL</span>: Q |{' '}
+            <span className="text-maze-gold font-bold">EXPAND</span>: F
+          </p>
+        </div>
+      </div>
+
       {/* Middle Grid — Starter Builds */}
       <div className="w-full max-w-5xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 my-4 px-4 z-10">
         {builds.map(b => {
@@ -623,97 +693,6 @@ export default function TitleScreen({
             </div>
           );
         })}
-      </div>
-
-      {/* Bottom controls & Action button */}
-      <div className="w-full max-w-md text-center flex flex-col items-center gap-3.5 z-10">
-        
-        {/* Difficulty Selection */}
-        <div className="w-full max-w-sm bg-slate-950/80 border border-slate-900 rounded-lg p-2.5 flex flex-col items-center gap-2 shadow-[0_0_10px_rgba(0,0,0,0.5)]">
-          <span className="text-[9px] font-cinzel font-bold text-maze-gold tracking-widest uppercase">
-            SELECT DIFFICULTY
-          </span>
-          <div className="flex gap-2 w-full">
-            {(['normal', 'hard', 'extreme'] as const).map(diff => (
-              <button
-                key={diff}
-                type="button"
-                onClick={() => setDifficulty(diff)}
-                className={`flex-1 py-1.5 rounded font-cinzel font-bold text-xs tracking-wider transition-all duration-300 cursor-pointer ${
-                  difficulty === diff
-                    ? diff === 'extreme'
-                      ? 'bg-red-950 border border-red-600 text-red-400 shadow-[0_0_12px_rgba(220,38,38,0.4)] animate-pulse'
-                      : diff === 'hard'
-                        ? 'bg-amber-950 border border-amber-600 text-amber-400 shadow-[0_0_10px_rgba(245,158,11,0.3)]'
-                        : 'bg-maze-gold/25 border border-maze-gold text-maze-gold shadow-[0_0_8px_rgba(201,168,76,0.2)]'
-                    : 'bg-slate-950/50 border border-slate-900 text-maze-silver/40 hover:text-maze-silver/80'
-                }`}
-              >
-                {diff === 'normal' && '일반 (Normal)'}
-                {diff === 'hard' && '오염 (Hard)'}
-                {diff === 'extreme' && '심층 (Extreme)'}
-              </button>
-            ))}
-          </div>
-          {/* Difficulty Description Bullet */}
-          <div className="text-[9px] font-outfit text-maze-silver/80 leading-relaxed text-center px-1">
-            {difficulty === 'normal' && (
-              <span className="text-maze-cream font-medium">기본 미궁 탐색 밸런스 유지 (점수 배율: 1.0x)</span>
-            )}
-            {difficulty === 'hard' && (
-              <span className="text-amber-500 font-bold">몬스터 HP/피해 +30% | 오염도 상승 속도 2배 | 점수 배율: 1.5x</span>
-            )}
-            {difficulty === 'extreme' && (
-              <span className="text-red-500 font-extrabold animate-pulse">몬스터 HP/피해 +70% | 기본 시야 제한 | 점수 배율: 2.5x | 전용 업적 해금</span>
-            )}
-          </div>
-        </div>
-
-        {/* Start Buttons Row */}
-        <div className="flex flex-col sm:flex-row gap-3">
-          <button
-            onClick={handleStartClick}
-            className="w-52 py-2.5 rounded-lg font-cinzel font-black text-sm bg-maze-gold hover:bg-maze-cream text-maze-bg border border-maze-cream tracking-widest transition-all duration-300 hover:shadow-gold-glow-lg active:scale-95 cursor-pointer"
-          >
-            ENTER THE MAZE
-          </button>
-          <button
-            onClick={handleDailyStartClick}
-            className="w-52 py-2.5 rounded-lg font-cinzel font-black text-sm bg-red-950/80 border border-red-500 hover:bg-red-900/90 text-red-100 tracking-widest transition-all duration-300 hover:shadow-[0_0_15px_rgba(239,68,68,0.4)] active:scale-95 cursor-pointer"
-          >
-            📅 DAILY CHALLENGE
-          </button>
-        </div>
-
-        {/* Daily Challenge Info Card */}
-        {(() => {
-          const dailyInfo = getDailySeedAndRule(new Date());
-          return (
-            <div className="border border-red-950/60 bg-red-950/20 backdrop-blur-md rounded-lg py-2.5 px-4 max-w-sm flex flex-col items-center select-none">
-              <div className="text-[10px] text-red-400 font-cinzel tracking-[0.2em] font-black uppercase mb-1">
-                TODAY'S DAILY CHALLENGE
-              </div>
-              <div className="text-[11px] font-bold text-white font-outfit">
-                📅 {dailyInfo.dateString} : <span className="text-maze-gold">{dailyInfo.rule.koreanName}</span>
-              </div>
-              <div className="text-[9px] text-maze-silver/80 mt-1 font-outfit text-center leading-relaxed">
-                {dailyInfo.rule.koreanDesc}
-              </div>
-            </div>
-          );
-        })()}
-
-
-        {/* Action Controls Guide */}
-        <div className="border border-slate-900 bg-maze-dark/60 rounded-lg py-2 px-4 max-w-sm">
-          <p className="text-[9px] text-maze-silver font-outfit tracking-wider leading-normal">
-            <span className="text-maze-gold font-bold">MOVE</span>: WASD |{' '}
-            <span className="text-maze-gold font-bold">ATK</span>: Click/Space |{' '}
-            <span className="text-maze-gold font-bold">DASH</span>: L-Shift |{' '}
-            <span className="text-maze-gold font-bold">SKL</span>: Q |{' '}
-            <span className="text-maze-gold font-bold">EXPAND</span>: F
-          </p>
-        </div>
       </div>
 
       {/* Full Scoreboard Modal */}

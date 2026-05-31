@@ -374,7 +374,7 @@ export default function App() {
   };
 
   return (
-    <div className="w-screen h-screen bg-maze-bg text-maze-text overflow-hidden select-none">
+    <div className={`w-screen bg-maze-bg text-maze-text select-none ${currentScreen === 'START' ? 'min-h-screen overflow-y-auto' : 'h-screen overflow-hidden'}`}>
       
       {/* Toast Notification Container */}
       <div className="fixed top-4 right-4 z-[9999] flex flex-col gap-3 pointer-events-none">
